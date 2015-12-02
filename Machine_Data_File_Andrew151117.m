@@ -2,30 +2,32 @@
 
 %% Wavesurfer
 
-% Cellstring identifying NI board used for the input channels.
-inputDeviceNames = {'Dev1' 'Dev1' 'Dev1' 'Dev1' 'Dev1'}; 
-% Array of channel numbers, e.g. 0:1
-inputChannelIDs = 0, 2 ,5,6, 7; 
 % Cell array of strings, each string an NI physical channel name
-physicalInputChannelNames = {'Dev1/ai0' 'Dev1/ai2' 'Dev1/ai5' 'Dev1/ai6' 'Dev1/ai7'} ;  
+%inputDeviceNames = {'Dev1' 'Dev1' 'Dev1' 'Dev1'}; % Cellstring identifying NI board used for the input channels.
 % String cell array of channel identifiers. If left empty, default NI channel names will be used.
-inputChannelNames = {'V' 'I' 'Touch Sensor' 'Lick Sensor' 'Arduino Lick Report' }; 
+%inputChannelIDs = 0:3; % Array of channel numbers, e.g. 0:1
+physicalInputChannelNames = {'Dev1/ai0' 'Dev1/ai1' ...
+                            'Dev1/ai2' 'Dev1/ai3' ...
+                            'Dev1/ai4' 'Dev1/ai5' ...
+                            'Dev1/ai6' 'Dev1/ai7'};
+                            
+inputChannelNames = {'V1' 'I1' ...
+                    'Left Lick' 'Right Lick'...
+                    'ai4' 'ai5' ...
+                    'ai6' 'ai7'};
 
-% Cellstring identifying NI board
-outputDeviceNames = {'Dev1'}; 
-%used for the output channels. 
-% Array of AO channel numbers, e.g. 0:1. 
-outputAnalogChannelIDs = 0; 
-%String cell array of channel identifiers. If left empty, default NI channel names will be used. 
-outputAnalogChannelNames = {}; 
-% Array of DO channel numbers, e.g. 0:1. 
-outputDigitalChannelIDs = [0:1]; 
-%String cell array of channel identifiers. If left empty, default NI channel names will be used.
-outputDigitalChannelNames = {}; 
+
+%outputDeviceNames = {'Dev1' 'Dev1'}; % Cellstring identifying NI board used for the output channels.
+%outputAnalogChannelIDs = 0:1; % Array of AO channel numbers, e.g. 0:1.
+%outputAnalogChannelNames = {'Cmd1' 'Cmd2'}; % String cell array of channel identifiers. If left empty, default NI channel names will be used.
 % Cell array of strings, each string an NI physical channel name
-physicalOutputChannelNames = {'Dev1/ao0'} ;  
+%outputDigitalChannelIDs = []; % Array of DO channel numbers, e.g. 0:1.
 % String cell array of channel identifiers. If left empty, default NI channel names will be used.
-outputChannelNames = {'DAC0'};  
+%outputDigitalChannelNames = {}; %String cell array of channel identifiers. If left empty, default NI channel names will be used.
+physicalOutputChannelNames = {'Dev1/ao0' 'Dev1/ao1' ...
+                              'Dev1/line0' 'Dev1/line1'} ;  
+outputChannelNames = {'Dagan Ext Cmd' 'Cmd2' ...
+                      'DAGAN Step Trigger' 'do2'};  
 
 
 
@@ -49,7 +51,7 @@ triggerSource(2).CounterID = 1;  % Which internal counter device will be used to
 % can trigger off an externally-supplied TTL trigger.  In this case, the
 % external trigger should be attached to PFI0, and rising edges will be
 % interpreted as the triggering event.
-triggerDestination(1).Name = 'PFI0';
+triggerDestination(1).Name = 'External Trigger 1';
 triggerDestination(1).DeviceName = 'Dev1';
 triggerDestination(1).PFIID = 0; 
 triggerDestination(1).Edge = 'Rising'; 
@@ -58,16 +60,7 @@ triggerDestination(1).Edge = 'Rising';
 % can trigger off an externally-supplied TTL trigger.  In this case, the
 % external trigger should be attached to PFI1, and rising edges will be
 % interpreted as the triggering event.
-triggerDestination(2).Name = 'User 1';
+triggerDestination(2).Name = 'External Trigger 2';
 triggerDestination(2).DeviceName = 'Dev1';
 triggerDestination(2).PFIID = 1; 
-triggerDestination(2).Edge = 'Rising'; 
-
-% This part sets up a "trigger destination"---Essentially, a thing so you
-% can trigger off an externally-supplied TTL trigger.  In this case, the
-% external trigger should be attached to PFI1, and rising edges will be
-% interpreted as the triggering event.
-triggerDestination(2).Name = 'User 2';
-triggerDestination(2).DeviceName = 'Dev1';
-triggerDestination(2).PFIID = 2; 
 triggerDestination(2).Edge = 'Rising'; 
